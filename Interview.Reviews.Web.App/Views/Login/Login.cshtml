@@ -1,0 +1,97 @@
+﻿@model DataModel.Library.LoginModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+@{
+    Layout = null; // To remove the default layout
+}
+<style>
+    body {
+        background-image: url('../../Images/Interview_App_1.jpg');
+        /* Adjust background properties as needed */
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    // Function to hide the message after 5 seconds (adjust as needed)
+    $(document).ready(function () {
+        setTimeout(function () {
+            $('#messageDiv').fadeOut('slow');
+        }, 3000); // 3 seconds
+    });
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Additional CSS for custom styles -->
+    <style>
+        .login-box {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Adjust shadow as needed */
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff; /* White background */
+            margin-top: 15%;
+        }
+
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-6">
+                <div class="login-box">
+                    <section style="background-color:antiquewhite;border-radius:25px;">
+                        <h2>Login</h2>
+                    </section>
+                    <div class="form-group">
+                        @*   @Html.Raw(ViewBag.Message)*@
+                        @if (!string.IsNullOrEmpty(ViewBag.Message))
+                        {
+                            <div id="messageDiv" class="alert alert-danger">@ViewBag.Message</div>
+                        }
+                    </div>
+                    @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary mr-2">Login</button>
+                            <a href="@Url.Action("RegisterUser","User")" class="btn btn-secondary">Sign Up</a>
+                        </div>
+
+                        <div class="mt-3">
+                            <a href="@Url.Action("ForgotPassword","Login")" class="btn btn-link">Forgot Password?</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

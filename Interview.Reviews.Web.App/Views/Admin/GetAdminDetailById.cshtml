@@ -1,0 +1,196 @@
+﻿@model IEnumerable<DataModel.Library.UserModel>
+
+@{
+    ViewBag.Title = "GetAdminDetailById";
+
+}
+
+<style>
+
+    body {
+        /*background-image: url('../../Images/Interview_App_1.jpg');*/
+        /* Adjust background properties as needed */
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .card-body {
+        background-color: aliceblue;
+        border-radius: 30px;
+        padding: 25px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Adjust shadow as needed */
+    }
+</style>
+
+<link href="~/Content/adminDashboard.css" rel="stylesheet" />
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Modern Admin Dashboard</title>
+
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+</head>
+<body>
+    <input type="checkbox" id="menu-toggle">
+    <div class="sidebar">
+        <div class="side-header">
+            <h3>M<span>odern</span></h3>
+        </div>
+
+        <div class="side-content">
+            <div class="profile">
+                <div class="profile-img bg-img" style="background-image: url(img/3.jpeg)"></div>
+                <div id="userName" style="color:white;font:100;">
+
+                </div>
+                <h4></h4>
+                <small>Admin</small>
+            </div>
+
+            <div class="side-menu">
+                <ul>
+                    <li>
+                        <a href="@Url.Action("AdminDashboard","Admin")" class="active">
+                            <span class="las la-home"></span>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("GetAdminDetailById","Admin")">
+                            <span class="las la-user-alt"></span>
+                            <small>Profile</small>
+                        </a>
+                    </li>
+
+
+
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+
+        <header style=" margin-top:50px;">
+            <div class="header-content">
+                <label for="menu-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+
+                <div class="header-menu">
+                    <label for="">
+                        <span class="las la-search"></span>
+                    </label>
+
+                    <div class="notify-icon">
+                        <span class="las la-envelope"></span>
+                        <span class="notify">4</span>
+                    </div>
+
+                    <div class="notify-icon">
+                        <span class="las la-bell"></span>
+                        <span class="notify">3</span>
+                    </div>
+                    <a href="@Url.Action("Logout","Login")">
+                        <div class="user">
+                            <div class="bg-img" style="background-image: url(img/1.jpeg);"></div>
+
+                            <span class="las la-power-off"></span>
+                            <span style="">Logout</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+
+        <main>
+
+            <div class="page-header">
+                <h1>Dashboard</h1>
+                <small>Home / Dashboard</small>
+            </div>
+            <div>
+                <div class="container">
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h2 style="text-align:center" class="card-title">@item.FullName</h2>
+                                        <table class="table">
+                                            <tr>
+                                                <td><strong>User ID:</strong></td>
+                                                <td>@item.UserId</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Email:</strong></td>
+                                                <td>@item.Email</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Status:</strong></td>
+                                                <td>@item.Status.Status</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Date of Birth:</strong></td>
+                                                <td>@item.DateOfBirth.ToShortDateString()</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Password:</strong></td>
+                                                <td>@item.Password</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, new { @class = "btn btn-primary" })
+                                                </td>
+                                                <td>
+                                                    @Html.ActionLink("Delete", "Delete", new { id = item.UserId }, new { @class = "btn btn-danger" })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="card-footer">
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+            </div>
+
+
+        </main>
+
+    </div>
+</body>
+</html>
+
+
+<script>
+    // JavaScript code to set the content of the element with id "userName"
+    document.addEventListener("DOMContentLoaded", function() {
+        // Check if the Model array is not empty
+        var modelArray = @Html.Raw(Json.Encode(Model));
+        if (modelArray.length > 0) {
+            // Get the first user's FullName from the Model array
+            var userName = modelArray[0].FullName;
+            // Set the content of the element with id "userName" to the retrieved name
+            document.getElementById("userName").innerText = userName;
+        } else {
+            // If Model array is empty, display "No User"
+            document.getElementById("userName").innerText = "No User";
+        }
+    });
+</script>

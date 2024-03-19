@@ -1,0 +1,117 @@
+﻿@model DataModel.Library.ReviewModel
+@{
+    ViewBag.Title = "EditReview";
+}
+
+<body>
+    <div class="container mt-4">
+        <div class="row justify-content-md-center">
+            <div class="col-md-10">
+                <div class="register-box">
+                    <h2 class="text-center">Edit review</h2>
+                    <div style="display: flex; justify-content: center; align-items: center; padding-top:30px">
+                        @using (Html.BeginForm("EditReview", "Review", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                @Html.HiddenFor(model => model.ReviewId, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control", rows = "5" } })
+                                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="rating">
+                                    <span><i class="far fa-star" data-value="1"></i></span>
+                                    <span><i class="far fa-star" data-value="2"></i></span>
+                                    <span><i class="far fa-star" data-value="3"></i></span>
+                                    <span><i class="far fa-star" data-value="4"></i></span>
+                                    <span><i class="far fa-star" data-value="5"></i></span>
+                                    @Html.HiddenFor(model => model.Rating, new { @id = "selectedRating" }) <!-- Hidden field to store selected rating -->
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
+                            </div>
+                            <div style="display: flex; justify-content: center; align-items: center; padding-top: 30px;">
+                                <button type="submit" class="btn btn-primary">Edit review</button>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.rating > span').click(function () {
+                var value = $(this).find('i').data('value');
+                $('#selectedRating').val(value);
+                $(this).parent().children('span').each(function () {
+                    var currentValue = $(this).find('i').data('value');
+                    if (currentValue >= value) {
+                        $(this).find('i').removeClass('far').addClass('fas').css('color', 'gold');
+                    } else {
+                        $(this).find('i').removeClass('fas').addClass('far').css('color', '');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <style>
+        body {
+            background-image: url('../../Images/Interview_App_1.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .register-box {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Adjust shadow as needed */
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff; /* White background */
+            margin-top: 5%;
+        }
+
+        .rating {
+            unicode-bidi: bidi-override;
+            font-size: 24px;
+        }
+
+            .rating > span {
+                display: inline-block;
+                position: relative;
+                width: 1.1em;
+            }
+
+                .rating > span:hover:before,
+                .rating > span:hover ~ span:before {
+                    content: "\2605";
+                    position: absolute;
+                }
+
+                .rating > span:hover:before {
+                    color: gold;
+                }
+
+                .rating > span:before {
+                    content: "\2606";
+                    position: absolute;
+                }
+    </style>
+</body>
+
+
+

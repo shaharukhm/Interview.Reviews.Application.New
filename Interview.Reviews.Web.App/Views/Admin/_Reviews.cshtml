@@ -1,0 +1,140 @@
+﻿@model IEnumerable<DataModel.Library.ReviewModel>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+            $(document).ready(function () {
+                var message = '@TempData["Message"]';
+                if (message) {
+                    // Display toastr notification
+                    toastr.options.timeOut = 10000; // 10 seconds
+                    toastr.success(message);
+                }
+            });
+
+    var $j = jQuery.noConflict(); // Use $j instead of $ to avoid conflicts
+
+    $j(document).ready(function () {
+        $j('#reviewTable').DataTable({
+            responsive: true
+        });
+        $(".password-placeholder").click(function () {
+            var $passwordText = $(this).next(".password-text");
+            $passwordText.show(); // Show the password text
+
+            // Hide the password text after 10 seconds
+            setTimeout(function () {
+                $passwordText.hide(); // Hide the password text
+            }, 4000); // 4000 milliseconds = 4 seconds
+        });
+
+    });
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review</title>
+
+    <!-- Include Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Include Toastr CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include DataTables Responsive CSS -->
+    <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet">
+</head>
+<body>
+    <table id="reviewTable" class="table table-bordered table-responsive">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReviewId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CompanyName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Content)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Rating)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TimeStamb)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserId)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReviewId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompanyName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rating)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TimeStamb)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserId)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("EditReview", "Review", new { id = item.ReviewId })" class="btn btn-primary" title="Edit">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        @*<a href="@Url.Action("ReviewDetails", "Review", new { id = item.ReviewId })" class="btn btn-info" title="Details">
+                                <i class="fas fa-info-circle"></i> Details
+                            </a>*@
+                        <a href="@Url.Action("DeleteReview","Review", new { id = item.ReviewId })" class="btn btn-danger" title="Delete">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+
+<!-- Your HTML code -->
+<!-- Include DataTables CSS -->
+<link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
+
+<!-- Include DataTables JS -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<!-- Your HTML code continues -->
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<style>
+    body {
+        background-image: url('../../Images/Interview_App_1.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .register-box {
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Adjust shadow as needed */
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #ffffff; /* White background */
+        margin-top: 1%;
+        width: 106%;
+    }
+</style>
+

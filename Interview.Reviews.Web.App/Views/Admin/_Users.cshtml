@@ -1,0 +1,117 @@
+﻿@model IEnumerable<DataModel.Library.UserModel>
+
+<!-- Include jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include DataTables CSS -->
+<link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<style>
+    .password-placeholder {
+        cursor: pointer;
+    }
+</style>
+<script>
+
+    $(document).ready(function () {
+        $(".password-placeholder").click(function () {
+            var $passwordText = $(this).next(".password-text");
+            $passwordText.show(); // Show the password text
+
+            // Hide the password text after 10 seconds
+            setTimeout(function () {
+                $passwordText.hide(); // Hide the password text
+            }, 4000); // 4000 milliseconds = 4 seconds
+        });
+        var message = '@TempData["Message"]';
+        if (message) {
+            // Display toastr notification
+            toastr.options.timeOut = 10000; // 10 seconds
+            toastr.success(message);
+        }
+    });
+</script>
+<body>
+    <table id="reviewTable" class="table table-bordered table-responsive">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserStatusId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateOfBirth)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Password)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserStatusId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfBirth)
+                    </td>
+                    <td>
+                        <div class="password-field">
+                            <span class="password-placeholder" data-password="@item.Password">🔒</span>
+                            <span class="password-text" style="display:none;">@item.Password</span>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit","User", new { id = item.UserId })" class="btn btn-primary" title="Edit">
+                            <i class="fas fa-edit">  Edit </i>
+                        </a>
+                        <a href="@Url.Action("UserDetails","User", new { id = item.UserId })" class="btn btn-info" title="Details">
+                            <i class="fas fa-info-circle">  Details </i>
+                        </a>
+
+                        <a href="@Url.Action("DeleteUser", new { id = item.UserId })" class="btn btn-danger" title="Delete">
+                            <i class="fas fa-trash-alt">  Delete </i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Include DataTables JS -->
+    <script>
+        var $j = jQuery.noConflict(); // Use $j instead of $ to avoid conflicts
+
+        $j(document).ready(function () {
+            if ($j.fn.DataTable) { // Check if DataTables is available
+                $j('#reviewTable').DataTable({
+                    responsive: true
+                });
+            } else {
+                console.error('DataTables not available. Make sure it is included correctly.');
+            }
+        });
+    </script>
+</body>

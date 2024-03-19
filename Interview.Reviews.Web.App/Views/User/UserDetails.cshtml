@@ -1,0 +1,70 @@
+﻿@model DataModel.Library.UserModel
+
+@{
+    ViewBag.Title = "Profile";
+}
+
+<body>
+
+    <div class="container mt-4" style="margin-top:5%;">
+        <div class="row justify-content-md-center">
+            <div class="col-md-10">
+                <div class="register-box">
+                    <div style="display: flex; justify-content: center; padding-top: 50px; align-items: center; ">
+                        <div class="container">
+                            <div class="row">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h2 style="text-align:center" class="card-title">Profile</h2>
+                                        <table class="table" style="text-align: center">
+                                            <tr>
+                                                <td><strong>Name:</strong></td>
+                                                <td>@Model.FullName</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Email:</strong></td>
+                                                <td>@Model.Email</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Status:</strong></td>
+                                                <td>@Model.Status.Status</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Date of Birth:</strong></td>
+                                                <td>@Model.DateOfBirth.ToShortDateString()</td>
+                                            </tr>
+                                        </table>
+                                        <div style="display: flex; justify-content: center; align-items: center; ">
+                                            <a style="width:100px; height:40px; text-align: center; font-size: 18px" href="@Url.Action("Edit","User", new { id = @Model.UserId })" class="btn btn-primary" title="Edit">
+                                                Edit
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<style>
+    body {
+        background-image: url('../../Images/Interview_App_1.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .register-box {
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Adjust shadow as needed */
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #ffffff; /* White background */
+        margin-top: 5%;
+    }
+</style>

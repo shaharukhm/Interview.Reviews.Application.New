@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewBag.Title - Interview Reviews</title>
+    @*  @Styles.Render("~/Content/css")*@
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Interview reviews", "Index", "Login", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+
+                    @if (Session["Role"] != null)
+                    {
+                        if (Session["Role"].ToString() == "3")
+                        {
+                            <li>@Html.ActionLink("Admin", "Dashboard", "Admin")</li>
+                        }
+                        <li>@Html.ActionLink("Go To Reviews", "Index", "Review")</li>
+
+                        if (Session["Role"].ToString() == "1")
+                        {
+                            <li>@Html.ActionLink("Promote To Graduate", "PromoteToGraduate", "User")</li>
+                        }
+                        else
+                        {
+                            <li></li>
+
+                        }
+                    }
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+
+                    @*  <li>@Html.ActionLink("Logout", "LogOut", "Login")</li>*@
+
+                    @if (Session["UserId"] != null)
+                    {
+                        <li>@Html.ActionLink("Profile", "UserProfile", "User")</li>
+                        <li>
+                        
+                                @*<input type="button" class="btn btn-link" data-toggle="modal" data-target="#exampleModal" value="Log Out" />*@
+
+                                @Html.ActionLink("Logout", "LogOut", "Login", null, new { id = "logout-link" })
+                           
+                        </li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Log In", "Login", "Login")</li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Interview reviews</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @*  @Scripts.Render("~/bundles/bootstrap")*@
+    @RenderSection("scripts", required: false)
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
+<script>
+    // Function to handle logout confirmation
+    document.getElementById('logout-link').addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent the default action of the link
+
+        // Show confirmation dialog
+        if (confirm("Are you sure you want to logout?")) {
+            window.location.href = '@Url.Action("LogOut", "Login")';
+           
+        }
+    });
+</script>
+
+
+<!-- Modal -->
+<!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm Logout</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4> Are you sure you want to log out ?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a href="@Url.Action("LogOut","Login")" class="btn btn-danger">Log Out</a>
+            </div>
+        </div>
+    </div>
+</div>-->

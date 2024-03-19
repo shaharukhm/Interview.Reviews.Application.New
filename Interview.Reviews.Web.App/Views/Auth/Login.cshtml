@@ -1,0 +1,74 @@
+﻿@model Interview.Reviews.Web.App.Models.Login
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <style>
+        .spanText {
+            text-align: center;
+            font-weight: bold;
+            font-size: 40px;
+            display: flex;
+            justify-content: center;
+            padding-top: 30px
+        }
+
+        .formContols {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <span class="spanText">Sign In</span>
+    <br />
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <legend></legend>
+            <div style="display: flex; justify-content: center; padding-bottom:30px">
+                <div>
+                    @Html.LabelFor(model => model.UserName)
+                </div>
+                <div style="float:left; padding-left: 20px; width:300px">
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                </div>
+                <div style="line-height: 49px;font-size: 11pt;">
+                    @Html.ValidationMessageFor(model => model.UserName)
+                </div>
+            </div>
+            <div style="display: flex; justify-content: center; padding-bottom:30px">
+                <div>
+                    @Html.LabelFor(model => model.Password)
+                </div>
+                <div style="float:left; padding-left: 20px; width:300px">
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                </div>
+                <div style="line-height: 51px;font-size: 11pt;">
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: center;">
+                <div>
+                    <a href="@Url.Content("~/Student/Register")">
+                        <input type="button" value="Register" class="btn btn-success" style="width: 100px;height: 40px;" />
+                    </a>
+                </div>
+                <div>
+                    <input type="submit" value="Login" class="btn btn-success" style="width: 100px;height: 40px;margin-left:60px;" />
+                </div>
+            </div>
+            
+            <div style="margin-left:195px;">
+                @ViewBag.msg
+            </div>
+
+        </fieldset>
+    }
+</body>

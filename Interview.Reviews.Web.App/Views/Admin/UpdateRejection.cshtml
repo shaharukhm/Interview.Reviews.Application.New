@@ -1,0 +1,76 @@
+﻿@model DataModel.Library.UserModel
+
+@{
+    ViewBag.Title = "UpdateRejection";
+}
+<!Doctype html>
+<html>
+    <head>
+        <title></title>
+        <style>
+            body {
+                background-image: url('../../Images/Interview_App_1.jpg');
+                /* Adjust background properties as needed */
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
+
+            .promote-box {
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Adjust shadow as needed */
+                padding: 40px;
+                border-radius: 10px;
+                background-color: #ffffff; /* White background */
+                margin-top: 15%;
+            }
+        </style>
+    </head>
+
+<body>
+    <div class="container mt-4">
+        <div class="row justify-content-md-center">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="promote-box">
+                    @using (Html.BeginForm("UpdateRejection","Admin",FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <h4 style="text-align:center">Reject request</h4>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+
+                                <div class="">
+                                    @Html.HiddenFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.HiddenFor(model => model.LinkedInUrl, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+
+                            
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.NotApprovalComment, htmlAttributes: new { @class = "control-label" })
+                              
+                                <div class="">
+                                    @Html.EditorFor(model => model.NotApprovalComment, new { htmlAttributes = new { @class = "form-control", rows = "5" } })
+                                
+                                    @Html.ValidationMessageFor(model => model.NotApprovalComment, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                              
+                                    <input type="submit" value="Update" class="btn btn-info" />
+                             
+                            </div>
+                        </div>
+                    }
+
+                  </div>
+                </div>
+            </div>
+        </div>
+    
+</body>
+</html>

@@ -1,0 +1,149 @@
+﻿@model IEnumerable<DataModel.Library.ReviewModel>
+
+@{
+    ViewBag.Title = "Index";
+    var firstUser = Model.FirstOrDefault();
+    //string userName = firstUser != null ? firstUser.Author.Status.ToString() : string.Empty;
+
+    int Role = (int)Session["Role"];
+
+}
+
+@*<h2>Interview Preparation Reviews </h2>*@
+
+<style>
+
+    #fixedSection {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000; /* Adjust z-index as needed */
+        background-color: #fff; /* Adjust background color as needed */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
+    }
+
+
+    .search-container {
+        display: inline-flex;
+        align-items: center;
+        width: 350px; /* Adjust the width as needed */
+        margin: 0 auto; /* Center the container horizontally */
+    }
+
+    .search-box {
+        flex: 1; /* The search box will take up remaining space */
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px 0 0 5px; /* Rounded corners on the left side */
+      
+    }
+
+    .search-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 0 5px 5px 0; /* Rounded corners on the right side */
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+
+    .card {
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Adjust shadow as needed */
+        padding: 10px;
+        border-radius: 10px;
+        background-color: #ffffff; /* White background */
+        margin-top: 2%;
+    }
+
+    .card-text {
+    }
+
+    h2 {
+        text-align: center;
+    }
+    body {
+       
+        /*background-image: url('../../Images/Interview_App_1.jpg');*/
+        /* Adjust background properties as needed */
+        /*background-size: cover;
+        background-repeat: no-repeat;*/
+    }
+  
+
+    .rating {
+        unicode-bidi: bidi-override;
+        direction: rtl;
+        text-align: left;
+    }
+
+        .rating span.star {
+            font-size: 30px;
+            color: gold;
+            display: inline-block;
+        }
+        div.searchAndButton{
+            left:50px;
+        }
+</style>
+
+
+@using (Html.BeginForm("Index", "Review", FormMethod.Get))
+{
+    <section id="fixedSection">
+        <hr />
+        <div class="searchAndButton">
+            <hr />
+            <div class="form-group search-container" style="margin-left:10%;">
+
+                <input type="text" class="form-control search-box" id="companyName" name="companyName" placeholder="Enter company name">&nbsp;&nbsp;
+                <button type="submit" class="search-button btn btn-primary">Search</button>
+
+            </div>
+
+            <div class="form-group " style="margin-top:5px;margin-left:10%;">
+
+                @if (Role == 3 || Role == 2)
+                {
+                    <a href="@Url.Action("CreateReview","Review")">
+                        <input type="button" class="btn btn-primary" value="Add Review" />
+                    </a>
+                }
+
+            </div>
+        </div>
+    </section>
+   
+    <div class="container" style="margin-top:15%;">
+        @foreach (var item in Model)
+        {
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <section class="bg-info">
+                                <h2 class="card-title">@Html.DisplayFor(modelItem => item.CompanyName)</h2>
+                            </section>
+
+
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.Content)</p>
+                            <p class="card-text rating">
+
+                                @for (int i = 1; i <= item.Rating; i++)
+                                {
+                                    <span class="star">&#9733;</span>
+                                }
+
+
+                            </p>
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.TimeStamb)</p>
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.Author.FullName)</p>
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,244 @@
+﻿
+@{ ViewBag.Title = "Dashboard";
+
+    var Name = Session["Name"] as string; }
+
+<link href="~/Content/adminDashboard.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include Toastr CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+
+<!-- Include Toastr JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#anchor-container a").click(function (e) {
+            e.preventDefault();
+            var action = $(this).data("action");
+            if (action == 'Graduates') {
+                 $.get('@Url.Action("GetGraduateList", "Admin")', function (data) {
+                $("#list-container").html(data);
+                 });
+
+            }
+            else if(action == 'Admins'){
+                  $.get('@Url.Action("GetAdminList", "Admin")', function (data) {
+                $("#list-container").html(data);
+                 });
+            }
+
+            else if (action == 'Users') {
+                 $.get('@Url.Action("GetUserList", "Admin")', function (data) {
+                $("#list-container").html(data);
+                 });
+            }
+            else if (action == 'Reviews'){
+                $.get('@Url.Action("GetReviewList", "Admin")', function (data) {
+                $("#list-container").html(data);
+                 });
+            }
+
+             else if (action == 'Promotions'){
+                $.get('@Url.Action("GetPromotionsList", "Admin")', function (data) {
+                    $("#list-container").html(data);
+                   
+                 });
+            }
+            // Load list data via AJAX
+
+        });
+
+    });
+</script>
+
+<body>
+    <div class="sidebar">
+        <div class="side-header"></div>
+
+        <div class="side-content">
+            <div class="profile">
+                <div class="profile-img bg-img" style="background-image: url(img/3.jpeg)"></div>
+                <h4>@Name</h4>
+                <small>Admin</small>
+            </div>
+
+            <div class="side-menu">
+                <ul>
+                    <li>
+                        <a href="@Url.Action("Dashboard","Admin")" class="active">
+                            <span class="las la-home"></span>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("GetAdminDetailById","Admin")">
+                            <span class="las la-user-alt"></span>
+                            <small>Profile</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("ForgotPassword","Login")">
+                            <span class="las la-key"></span>
+                            <small>Update Password</small>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <main>
+            <div class="page-header">
+                <h1>Dashboard</h1>
+            </div>
+
+            <div class="page-content">
+                <div class="analytics " id="anchor-container">
+                    <a href="#" data-action="Users">
+                        <div class="card">
+                            <div class="card-head">
+                                <h4>Users</h4>
+
+                                <span class="las la-user-friends"></span>
+                            </div>
+                            <div class="card-progress">
+                                <h3 style="text-align:center">@ViewBag.TotalUsers</h3>
+                                <div class="card-indicator">
+                                    <div class="indicator one" style="width: 60%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" data-action="Graduates">
+                        <div class="card">
+                            <div class="card-head">
+                                <h4>Graduates</h4>
+                                <span class="las la-user-friends"></span>
+                                @* <span class="las la-eye"></span>*@
+                            </div>
+                            <div class="card-progress">
+                                <h3 style="text-align:center">@ViewBag.TotalGraduates</h3>
+                                <div class="card-indicator">
+                                    <div class="indicator two" style="width: 80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" data-action="Admins">
+                        <div class="card">
+                            <div class="card-head">
+                                <h4>Admins</h4>
+                                <span class="las la-user-friends"></span>
+                            </div>
+                            <div class="card-progress">
+
+                                <h3 style="text-align:center">@ViewBag.TotalAdmins</h3>
+                                <div class="card-indicator">
+                                    <div class="indicator three" style="width: 65%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" data-action="Reviews">
+                        <div class="card">
+                            <div class="card-head">
+                                <h4>Total Reviews</h4>
+                                <span class="las la-user-friends"></span>
+                            </div>
+                            <div class="card-progress">
+                                @* <small>New E-mails received</small>*@
+                                <h3>@ViewBag.TotalReviews</h3>
+                                <div class="card-indicator">
+                                    <div class="indicator four" style="width: 90%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="#" data-action="Promotions">
+                        <div class="card">
+                            <div class="card-head">
+                                <h4>Promotions</h4>
+                                <span class="las la-user-friends"></span>
+                            </div>
+                            <div class="card-progress">
+                                @* <small>New E-mails received</small>*@
+                                <h3>@ViewBag.TotalPromotions</h3>
+                                <div class="card-indicator">
+                                    <div class="indicator four" style="width: 90%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                @*To load dynamic user/review list*@
+                <div class="records table-responsive">
+                    <div id="list-container">
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<style>
+    body {
+        background-image: url('../../Images/Interview_App_1.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<!-- Logout Confirmation Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="logoutModalLabel">Confirm Logout</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4> Are you sure you want to log out ?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a href="@Url.Action("LogOut","Login")" class="btn btn-primary">Log Out</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+
+    $(document).ready(function() {
+        // Make an AJAX request to check if there are any promotion requests
+        $.ajax({
+            url: '@Url.Action("CheckPromotionRequests", "Admin")',
+            type: 'GET',
+            success: function (data) {
+              
+                if (data.totalPromotions > 0) {
+                    // Display a Toastr message indicating promotion requests
+                    toastr.success('You have promotion requests!');
+                }
+            },
+            error: function() {
+                console.log('An error occurred while checking promotion requests.');
+            }
+        });
+    });
+</script>
